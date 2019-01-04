@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "481409015519",
+    "firebase_url": "https://surveytwo.firebaseio.com",
+    "project_id": "surveytwo",
+    "storage_bucket": "surveytwo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:481409015519:android:b6e31026b105f78b",
+        "android_client_info": {
+          "package_name": "com.admin.surveytwo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "481409015519-n05ah1sunq86j51e7dlt891pl705j3pv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJGrZbVCgg5g_-9keL8vlUvglhTqKxiGQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

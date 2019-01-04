@@ -1,0 +1,861 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context=".activities.ListActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+
+        >
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="10dp"
+        android:id="@+id/cardOne"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="5dp"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="85dp"
+                android:layout_height="100dp"
+                android:src="@mipmap/abcdman"
+                android:id="@+id/myImgOne"
+                android:scaleType="fitXY"
+                android:layout_centerVertical="true"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgOne"
+                android:id="@+id/userName"
+                android:text="User Name"
+                android:textSize="18dp"
+                android:layout_marginTop="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgOne"
+                android:layout_below="@id/userName"
+                android:text="Desegnation"
+                android:id="@+id/desegOne"
+                android:textSize="18dp"
+                android:layout_marginTop="5dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgOne"
+                android:id="@+id/userIdOne"
+                android:layout_below="@id/desegOne"
+                android:textSize="18dp"
+                android:layout_marginTop="5dp"
+                android:text="User Id"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgOne"
+                android:id="@+id/mobileOne"
+                android:layout_below="@id/userIdOne"
+                android:textSize="18dp"
+                android:layout_marginTop="5dp"
+                android:text="Mobile Number"
+                android:layout_marginBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+
+        </RelativeLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+
+
+
+
+
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="10dp"
+        android:id="@+id/cardTwo"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="5dp"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="85dp"
+                android:layout_height="100dp"
+                android:src="@mipmap/abcdman"
+                android:scaleType="fitXY"
+                android:id="@+id/myImgTwo"
+                android:layout_centerVertical="true"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgTwo"
+                android:id="@+id/userNameTwo"
+                android:text="User Name"
+                android:textSize="18dp"
+                android:layout_marginTop="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgTwo"
+                android:layout_below="@id/userNameTwo"
+                android:text="Desegnation"
+                android:id="@+id/desegTwo"
+                android:textSize="18dp"
+                android:layout_marginTop="5dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgTwo"
+                android:id="@+id/userIdTwo"
+                android:layout_below="@id/desegTwo"
+                android:textSize="18dp"
+                android:layout_marginTop="5dp"
+                android:text="User Id"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgTwo"
+                android:id="@+id/mobileTwo"
+                android:layout_below="@id/userIdTwo"
+                android:textSize="18dp"
+                android:layout_marginTop="5dp"
+                android:text="Mobile Number"
+                android:layout_marginBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+
+        </RelativeLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="10dp"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="5dp"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="85dp"
+                android:layout_height="100dp"
+                android:src="@mipmap/abcdman"
+                android:scaleType="fitXY"
+                android:id="@+id/myImgThree"
+                android:layout_centerVertical="true"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgThree"
+                android:id="@+id/userNameThree"
+                android:text="User Name"
+                android:textSize="18dp"
+                android:layout_marginTop="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgThree"
+                android:layout_below="@id/userNameThree"
+                android:text="Desegnation"
+                android:id="@+id/desegThree"
+                android:textSize="18dp"
+                android:layout_marginTop="5dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgThree"
+                android:id="@+id/userIdThree"
+                android:layout_below="@id/desegThree"
+                android:textSize="18dp"
+                android:layout_marginTop="5dp"
+                android:text="User Id"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgThree"
+                android:id="@+id/mobileThree"
+                android:layout_below="@id/userIdThree"
+                android:textSize="18dp"
+                android:layout_marginTop="5dp"
+                android:text="Mobile Number"
+                android:layout_marginBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+
+        </RelativeLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+
+
+
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="10dp"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="5dp"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="85dp"
+                android:layout_height="100dp"
+                android:src="@mipmap/abcdman"
+                android:scaleType="fitXY"
+                android:id="@+id/myImgFour"
+                android:layout_centerVertical="true"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgFour"
+                android:id="@+id/userNameFour"
+                android:text="User Name"
+                android:textSize="18dp"
+                android:layout_marginTop="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgFour"
+                android:layout_below="@id/userNameFour"
+                android:text="Desegnation"
+                android:id="@+id/desegFour"
+                android:textSize="18dp"
+                android:layout_marginTop="5dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgFour"
+                android:id="@+id/userIdFour"
+                android:layout_below="@id/desegFour"
+                android:textSize="18dp"
+                android:layout_marginTop="5dp"
+                android:text="User Id"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgFour"
+                android:id="@+id/mobileFour"
+                android:layout_below="@id/userIdFour"
+                android:textSize="18dp"
+                android:layout_marginTop="5dp"
+                android:text="Mobile Number"
+                android:layout_marginBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+
+        </RelativeLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+
+
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="10dp"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="5dp"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="85dp"
+                android:layout_height="100dp"
+                android:src="@mipmap/abcdman"
+                android:scaleType="fitXY"
+                android:id="@+id/myImgFive"
+                android:layout_centerVertical="true"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgFive"
+                android:id="@+id/userNameFive"
+                android:text="User Name"
+                android:textSize="18dp"
+                android:layout_marginTop="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgFive"
+                android:layout_below="@id/userNameFive"
+                android:text="Desegnation"
+                android:id="@+id/desegFive"
+                android:textSize="18dp"
+                android:layout_marginTop="5dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgFive"
+                android:id="@+id/userIdFive"
+                android:layout_below="@id/desegFive"
+                android:textSize="18dp"
+                android:layout_marginTop="5dp"
+                android:text="User Id"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgFive"
+                android:id="@+id/mobileFive"
+                android:layout_below="@id/userIdFive"
+                android:textSize="18dp"
+                android:layout_marginTop="5dp"
+                android:text="Mobile Number"
+                android:layout_marginBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+
+        </RelativeLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="10dp"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="5dp"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="85dp"
+                android:layout_height="100dp"
+                android:src="@mipmap/abcdman"
+                android:scaleType="fitXY"
+                android:id="@+id/myImgSix"
+                android:layout_centerVertical="true"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgSix"
+                android:id="@+id/userNameSix"
+                android:text="User Name"
+                android:textSize="18dp"
+                android:layout_marginTop="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgSix"
+                android:layout_below="@id/userNameSix"
+                android:text="Desegnation"
+                android:id="@+id/desegSix"
+                android:textSize="18dp"
+                android:layout_marginTop="5dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgSix"
+                android:id="@+id/userIdSix"
+                android:layout_below="@id/desegSix"
+                android:textSize="18dp"
+                android:layout_marginTop="5dp"
+                android:text="User Id"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgSix"
+                android:id="@+id/mobileSix"
+                android:layout_below="@id/userIdSix"
+                android:textSize="18dp"
+                android:layout_marginTop="5dp"
+                android:text="Mobile Number"
+                android:layout_marginBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+
+        </RelativeLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+
+
+
+
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="10dp"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="5dp"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="85dp"
+                android:layout_height="100dp"
+                android:src="@mipmap/abcdman"
+                android:scaleType="fitXY"
+                android:id="@+id/myImgSeven"
+                android:layout_centerVertical="true"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgSeven"
+                android:id="@+id/userNameSeven"
+                android:text="User Name"
+                android:textSize="18dp"
+                android:layout_marginTop="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgSeven"
+                android:layout_below="@id/userNameSeven"
+                android:text="Desegnation"
+                android:id="@+id/desegSeven"
+                android:textSize="18dp"
+                android:layout_marginTop="5dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgSeven"
+                android:id="@+id/userIdSeven"
+                android:layout_below="@id/desegSeven"
+                android:textSize="18dp"
+                android:layout_marginTop="5dp"
+                android:text="User Id"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgSeven"
+                android:id="@+id/mobileSeven"
+                android:layout_below="@id/userIdSeven"
+                android:textSize="18dp"
+                android:layout_marginTop="5dp"
+                android:text="Mobile Number"
+                android:layout_marginBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+
+        </RelativeLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+
+
+
+
+
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="10dp"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="5dp"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="85dp"
+                android:layout_height="100dp"
+                android:src="@mipmap/abcdman"
+                android:scaleType="fitXY"
+                android:id="@+id/myImgEight"
+                android:layout_centerVertical="true"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgEight"
+                android:id="@+id/userNameEight"
+                android:text="User Name"
+                android:textSize="18dp"
+                android:layout_marginTop="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgEight"
+                android:layout_below="@id/userNameEight"
+                android:text="Desegnation"
+                android:id="@+id/desegEight"
+                android:textSize="18dp"
+                android:layout_marginTop="5dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgEight"
+                android:id="@+id/userIdEight"
+                android:layout_below="@id/desegEight"
+                android:textSize="18dp"
+                android:layout_marginTop="5dp"
+                android:text="User Id"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgEight"
+                android:id="@+id/mobileEight"
+                android:layout_below="@id/userIdEight"
+                android:textSize="18dp"
+                android:layout_marginTop="5dp"
+                android:text="Mobile Number"
+                android:layout_marginBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+
+        </RelativeLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+
+
+
+
+
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="10dp"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="5dp"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="85dp"
+                android:layout_height="100dp"
+                android:src="@mipmap/abcdman"
+                android:scaleType="fitXY"
+                android:id="@+id/myImgNine"
+                android:layout_centerVertical="true"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgNine"
+                android:id="@+id/userNameNine"
+                android:text="User Name"
+                android:textSize="18dp"
+                android:layout_marginTop="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgNine"
+                android:layout_below="@id/userNameNine"
+                android:text="Desegnation"
+                android:id="@+id/desegNine"
+                android:textSize="18dp"
+                android:layout_marginTop="5dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgNine"
+                android:id="@+id/userIdNine"
+                android:layout_below="@id/desegNine"
+                android:textSize="18dp"
+                android:layout_marginTop="5dp"
+                android:text="User Id"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgNine"
+                android:id="@+id/mobileNine"
+                android:layout_below="@id/userIdNine"
+                android:textSize="18dp"
+                android:layout_marginTop="5dp"
+                android:text="Mobile Number"
+                android:layout_marginBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+
+        </RelativeLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+
+
+
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="10dp"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="5dp"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="85dp"
+                android:layout_height="100dp"
+                android:src="@mipmap/abcdman"
+                android:scaleType="fitXY"
+                android:id="@+id/myImgTen"
+                android:layout_centerVertical="true"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgTen"
+                android:id="@+id/userNameTen"
+                android:text="User Name"
+                android:textSize="18dp"
+                android:layout_marginTop="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgTen"
+                android:layout_below="@id/userNameTen"
+                android:text="Desegnation"
+                android:id="@+id/desegTen"
+                android:textSize="18dp"
+                android:layout_marginTop="5dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgTen"
+                android:id="@+id/userIdTen"
+                android:layout_below="@id/desegTen"
+                android:textSize="18dp"
+                android:layout_marginTop="5dp"
+                android:text="User Id"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/myImgTen"
+                android:id="@+id/mobileTen"
+                android:layout_below="@id/userIdTen"
+                android:textSize="18dp"
+                android:layout_marginTop="5dp"
+                android:text="Mobile Number"
+                android:layout_marginBottom="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                />
+
+
+        </RelativeLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+
+    </LinearLayout>
+
+</ScrollView>
