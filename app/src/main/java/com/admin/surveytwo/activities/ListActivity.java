@@ -1,5 +1,7 @@
 package com.admin.surveytwo.activities;
 
+import android.Manifest;
+import android.app.DownloadManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -7,21 +9,39 @@ import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
+import android.provider.Settings;
 import android.provider.SyncStateContract;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.admin.surveytwo.R;
 import com.admin.surveytwo.googleMap.MapsActivity;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.firebase.client.Firebase;
 import com.google.android.gms.common.api.Response;
 import com.google.android.gms.common.internal.Constants;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,15 +51,65 @@ import java.util.Map;
 
 public class ListActivity extends AppCompatActivity {
 
-    CardView cardView1,cardView2;
-    String tittle="Hello";
-    String subject="Nearby";
+    private static final String TAG = ListActivity.class.getSimpleName();
+
+    private static final int NOTI_PRIMARY1 = 1100;
+    private static final int NOTI_PRIMARY2 = 1101;
+    private static final int NOTI_SECONDARY1 = 1200;
+    private static final int NOTI_SECONDARY2 = 1201;
+    private NotificationHelper noti;
+    private DatabaseReference mFirebaseDatabase;
+    private FirebaseDatabase mFirebaseInstance;
+
+    private Firebase mRef;
+    private String userId;
+
+    CardView cardView1, cardView2, cardView3;
+    String tittle = "Hello";
+    String subject = "Nearby";
+    String url = "http://www.tachetechnologies.com/internal/firebase.php?id=AAAAcBY2nt8:APA91bFiFh3N-9Q2Wpm4HwhTtVCz-pAIx0gxVDQvPGhc8HEXvGRJEXVcfgekxasfJlM0PEl7HIbIaNChpuerJU0jW6iaAOOjyy7DZXqBkYSCOj8LktKLOaOAad5Rt6lBm9qDGAYsA3TF";
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+        Firebase.setAndroidContext(this);
+        noti = new NotificationHelper(this);
+
         cardView1 = (CardView) findViewById(R.id.cardOne);
         cardView2 = (CardView) findViewById(R.id.cardTwo);
+        cardView3 = (CardView)findViewById(R.id.cardThree);
+
+        mFirebaseInstance = FirebaseDatabase.getInstance();
+
+       /* // get reference to 'users' node
+        mFirebaseDatabase = mFirebaseInstance.getReference("https://surveytwo.firebaseio.com/");
+
+        // store app title to 'app_title' node
+        mFirebaseInstance.getReference("https://surveytwo.firebaseio.com/").setValue("surveyTwo");*/
+
+        // app_title change listener
+       /* mFirebaseInstance.getReference("https://surveytwo.firebaseio.com/").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.e(TAG, "App title updated");
+
+                String appTitle = dataSnapshot.getValue(String.class);
+
+                // update toolbar title
+                getSupportActionBar().setTitle(appTitle);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.e(TAG, "Failed to read app title value.", error.toException());
+            }
+        });*/
+
+
+
         cardView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,142 +122,109 @@ public class ListActivity extends AppCompatActivity {
         cardView2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // sendFCMPush();
-                helloTwo();
-                String tittle="Hello";
-                String subject="Nearby";
-                String body="You are nearby your office";
+                // sendFCMPush();
 
-                System.out.println(" mY nOTIFICATION  = = = ");
+                pushNotification();
+
+                sendNotification(NOTI_SECONDARY1, getTitleSecondaryText());
+
+            }
+        });
 
 
-                    NotificationManager notif=(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        cardView3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-                    Notification notify=new Notification.Builder
-                            (getApplicationContext()).setContentTitle(tittle).setContentText(body).
-                            setContentTitle(subject).setSmallIcon(R.mipmap.ic_launcher_round).build();
 
-                    System.out.println("My Noti =  "+notify);
-                    notify.flags |= Notification.FLAG_AUTO_CANCEL;
-                    notif.notify(1, notify);
+                Intent intent = new Intent(getApplicationContext(),DataListOne.class);
+                startActivity(intent);
+
+                    /*String name = "Rohan";
+                    String latlng = "20.3456";
+
+                    if(TextUtils.isEmpty(userId)){
+                        createUser(name, latlng);
+                    }*/
 
             }
         });
 
     }
 
-
-    public void helloTwo(){
-
-
-        int NOTIFICATION_ID = 234;
-
-        NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-
-
-            String CHANNEL_ID = "my_channel_01";
-            CharSequence name = "my_channel";
-            String Description = "This is my channel";
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
-            mChannel.setDescription(Description);
-            mChannel.enableLights(true);
-            mChannel.setLightColor(Color.RED);
-            mChannel.enableVibration(true);
-            mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
-            mChannel.setShowBadge(false);
-            notificationManager.createNotificationChannel(mChannel);
+    private void createUser(String name, String latlng) {
+        // TODO
+        // In real apps this userId should be fetched
+        // by implementing firebase auth
+        if (TextUtils.isEmpty(userId)) {
+            userId = mFirebaseDatabase.push().getKey();
+            Toast.makeText(ListActivity.this, "User created", Toast.LENGTH_SHORT).show();
         }
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle(tittle)
-                .setContentText(subject);
+        Users user = new Users(name, latlng);
 
-        Intent resultIntent = new Intent(getApplicationContext(), ListActivity.class);
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
-        stackBuilder.addParentStack(ListActivity.class);
-        stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        mFirebaseDatabase.child(userId).setValue(user);
 
-        builder.setContentIntent(resultPendingIntent);
+      //  addUserChangeListener();
+    }
 
-        notificationManager.notify(NOTIFICATION_ID, builder.build());
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void sendNotification(int id, String title) {
+        Notification.Builder nb = null;
+
+        nb = noti.getNotification2(title, getString(R.string.secondary1_body));
+        if (nb != null) {
+            noti.notify(id, nb);
+        }
+
+    }
+
+
+
+
+    private String getTitleSecondaryText() {
+       /* if (titlePrimary != null) {
+            return titleSecondary.getText().toString();
+        }*/
+        return "";
+    }
+
+
+
+    public void pushNotification(){
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new com.android.volley.Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONObject object = new JSONObject(response.toString());
+                    String string = object.getString("success");
+
+                    if(string.equals("1")){
+                        Toast.makeText(ListActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(ListActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new com.android.volley.Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ListActivity.this, "Network issue", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        RequestQueue queue= Volley.newRequestQueue(getApplicationContext());
+        queue.add(request);
+
 
 
     }
 
-    /*public void sendFCMPush(){
-
-
-        String SERVER_KEY = "AAAAcBY2nt8:APA91bFiFh3N-9Q2Wpm4HwhTtVCz-pAIx0gxVDQvPGhc8HEXvGRJEXVcfgekxasfJlM0PEl7HIbIaNChpuerJU0jW6iaAOOjyy7DZXqBkYSCOj8LktKLOaOAad5Rt6lBm9qDGAYsA3TF";
-        String msg = "this is test message";
-        String title = "my title";
-        String token = "AIzaSyB96WSkUAJtOAIPvEDRNIPMwaUyffVebTc";
-
-        JSONObject obj = null;
-        JSONObject objData = null;
-        JSONObject dataobjData = null;
-
-        try {
-            obj = new JSONObject();
-            objData = new JSONObject();
-
-            objData.put("body", msg);
-            objData.put("title", title);
-            objData.put("sound", "default");
-            objData.put("icon", "icon_name"); //   icon_name
-            objData.put("tag", token);
-            objData.put("priority", "high");
-
-            dataobjData = new JSONObject();
-            dataobjData.put("text", msg);
-            dataobjData.put("title", title);
-
-            obj.put("to", token);
-            //obj.put("priority", "high");
-
-            obj.put("notification", objData);
-            obj.put("data", dataobjData);
-            Log.e("return here>>", obj.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.POST, Constants.FCM_PUSH_URL, obj,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.e("True", response + "");
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("False", error + "");
-                    }
-                })
-
-
-        {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "key=" + SERVER_KEY);
-                params.put("Content-Type", "application/json");
-                return params;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        int socketTimeout = 1000 * 60;// 60 seconds
-        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-        jsObjRequest.setRetryPolicy(policy);
-        requestQueue.add(jsObjRequest);
-
-
-
-    }*/
 }

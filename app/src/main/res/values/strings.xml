@@ -30,7 +30,12 @@
     <string name="lbl_forgot_password">Forgot password?</string>
     <string name="forgot_password_msg">We just need your registered Email Id to sent you password reset instructions.</string>
     <string name="email_id">Email ID</string>
+    <string name="myId">AAAAcBY2nt8:APA91bFiFh3N-9Q2Wpm4HwhTtVCz-pAIx0gxVDQvPGhc8HEXvGRJEXVcfgekxasfJlM0PEl7HIbIaNChpuerJU0jW6iaAOOjyy7DZXqBkYSCOj8LktKLOaOAad5Rt6lBm9qDGAYsA3TF</string>
     <string name="title_activity_maps">Map</string>
+    <string name="noti_channel_second">Secondary Channel</string>
+    <string name="noti_channel_default">Primary Channel</string>
+    <string name="secondary1_body">Notification body text.</string>
+    <string name="notification_channel_id">Default</string>
 
 
 </resources>

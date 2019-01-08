@@ -2,6 +2,9 @@ package com.admin.surveytwo.googleMap;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -9,6 +12,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Looper;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -17,7 +21,15 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.admin.surveytwo.R;
+import com.admin.surveytwo.activities.ListActivity;
+import com.admin.surveytwo.activities.NotificationHelper;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
@@ -31,9 +43,21 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback  {
+
+
+    private static final String TAG = MapsActivity.class.getSimpleName();
+
+    private static final int NOTI_PRIMARY1 = 1100;
+    private static final int NOTI_PRIMARY2 = 1101;
+    private static final int NOTI_SECONDARY1 = 1200;
+    private static final int NOTI_SECONDARY2 = 1201;
+    private NotificationHelper noti;
 
      GoogleMap mMap;
      LocationManager locationManager;
@@ -41,13 +65,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     LocationRequest mLocationRequest;
     Location mLastLocation;
     Marker mCurrLocationMarker;
+    NotificationChannel mChannel;
+    Notification notification;
     FusedLocationProviderClient mFusedLocationClient;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+
+        noti = new NotificationHelper(this);
+
          mapFrag = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -94,27 +123,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
 
-        /*if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        mMap.setMyLocationEnabled(true);
-        mMap.getUiSettings().setMyLocationButtonEnabled(true);
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        float zoomLevel=15.0f;
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,zoomLevel));*/
+
 
     }
     LocationCallback mLocationCallback = new LocationCallback() {
+        @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public void onLocationResult(LocationResult locationResult) {
             List<Location> locationList = locationResult.getLocations();
@@ -140,6 +153,41 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
 
 
+                LatLng latLngA = new LatLng(location.getLatitude(),location.getLongitude());
+                LatLng latLngB = new LatLng(28.536957,77.271521);
+
+                Location locationA = new Location("point A");
+                locationA.setLatitude(latLngA.latitude);
+                locationA.setLongitude(latLngA.longitude);
+                Location locationB = new Location("point B");
+                locationB.setLatitude(latLngB.latitude);
+                locationB.setLongitude(latLngB.longitude);
+
+                double distance = locationA.distanceTo(locationB);
+
+                System.out.println(" My Distance == "+distance);
+
+                if(distance<=10){
+
+                    System.out.print("You are Nearby your company  "+distance);
+                  //  Toast.makeText(MapsActivity.this, "sssssss", Toast.LENGTH_SHORT).show();
+                    pushNotification();
+                    sendNotification(NOTI_SECONDARY1, getTitleSecondaryText());
+
+
+
+                }
+
+                /*Geofence geofence = new Geofence.Builder()
+                        .setRequestId(String.valueOf(1)) // Geofence ID
+                        .setCircularRegion( 28.536957, 77.271521, 200) // defining fence region
+                        .setExpirationDuration( 5 ) // expiring date
+                        // Transition types that it should look for
+                        .setTransitionTypes( Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT )
+                        .build();
+
+                System.out.println(" Hello Google =  "+geofence);
+               System.out.println("=========== "+geofence.getRequestId());*/
 
 
             }
@@ -216,4 +264,65 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void sendNotification(int id, String title) {
+        Notification.Builder nb = null;
+
+        nb = noti.getNotification2(title, getString(R.string.secondary1_body));
+        if (nb != null) {
+            noti.notify(id, nb);
+        }
+
+    }
+
+
+
+
+    private String getTitleSecondaryText() {
+       /* if (titlePrimary != null) {
+            return titleSecondary.getText().toString();
+        }*/
+        return "";
+    }
+
+
+    public void pushNotification(){
+
+        String url = "http://www.tachetechnologies.com/internal/firebase.php?id=AAAAcBY2nt8:APA91bFiFh3N-9Q2Wpm4HwhTtVCz-pAIx0gxVDQvPGhc8HEXvGRJEXVcfgekxasfJlM0PEl7HIbIaNChpuerJU0jW6iaAOOjyy7DZXqBkYSCOj8LktKLOaOAad5Rt6lBm9qDGAYsA3TF";
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new com.android.volley.Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    System.out.println("Response ===  "+response.toString());
+                    JSONObject object = new JSONObject(response.toString());
+
+                    String string = object.getString("success");
+
+                    if(string.equals("1")){
+                        Toast.makeText(getApplicationContext(), "Yoy are Successfully entered in 20 metere range", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new com.android.volley.Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "Network issue", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        RequestQueue queue= Volley.newRequestQueue(getApplicationContext());
+        queue.add(request);
+
+
+
+    }
 }
