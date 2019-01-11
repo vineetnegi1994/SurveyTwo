@@ -23,6 +23,8 @@ import android.support.v7.widget.CardView;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -46,6 +48,8 @@ import com.google.firebase.database.ValueEventListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,7 +68,7 @@ public class ListActivity extends AppCompatActivity {
     private Firebase mRef;
     private String userId;
 
-    CardView cardView1, cardView2, cardView3;
+    CardView cardView1, cardView2, cardView3, cardView4, cardView5;
     String tittle = "Hello";
     String subject = "Nearby";
     String url = "http://www.tachetechnologies.com/internal/firebase.php?id=AAAAcBY2nt8:APA91bFiFh3N-9Q2Wpm4HwhTtVCz-pAIx0gxVDQvPGhc8HEXvGRJEXVcfgekxasfJlM0PEl7HIbIaNChpuerJU0jW6iaAOOjyy7DZXqBkYSCOj8LktKLOaOAad5Rt6lBm9qDGAYsA3TF";
@@ -80,8 +84,13 @@ public class ListActivity extends AppCompatActivity {
         cardView1 = (CardView) findViewById(R.id.cardOne);
         cardView2 = (CardView) findViewById(R.id.cardTwo);
         cardView3 = (CardView)findViewById(R.id.cardThree);
+        cardView4 = (CardView)findViewById(R.id.cardFour);
+        cardView5 = (CardView)findViewById(R.id.cardFive);
 
         mFirebaseInstance = FirebaseDatabase.getInstance();
+
+        Date currentTime = Calendar.getInstance().getTime();
+        System.out.println("Real Time Date = "+currentTime);
 
        /* // get reference to 'users' node
         mFirebaseDatabase = mFirebaseInstance.getReference("https://surveytwo.firebaseio.com/");
@@ -150,6 +159,41 @@ public class ListActivity extends AppCompatActivity {
             }
         });
 
+        cardView4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), PostDataOne.class);
+                startActivity(intent);
+            }
+        });
+        cardView5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),SecondPost.class);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu,menu);
+        return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+
+            case R.id.attendanceMenuOne:
+                Intent intent1 = new Intent(getApplicationContext(), AttendanceDetails.class);
+                startActivity(intent1);
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void createUser(String name, String latlng) {
@@ -227,4 +271,16 @@ public class ListActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+
+
+        finish();
+        /*Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);*/
+
+        //super.onBackPressed();
+    }
 }

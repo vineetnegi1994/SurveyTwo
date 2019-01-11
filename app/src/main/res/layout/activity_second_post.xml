@@ -3,23 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:gravity="center"
     android:orientation="vertical"
-    android:background="#f2f2f2"
     android:layout_height="match_parent"
-    tools:context=".SplashScreen">
+    tools:context=".activities.SecondPost">
 
-
-
-
-    <ImageView
-        android:layout_width="wrap_content"
+    <EditText
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@mipmap/my_logo2"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+        android:hint="text Something"
+        android:id="@+id/secondPost"
 
         />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="9dp"
+        android:text="post data"
+        android:id="@+id/secondButton"
+        />
 
 </LinearLayout>

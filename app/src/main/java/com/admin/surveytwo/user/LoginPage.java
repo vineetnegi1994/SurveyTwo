@@ -1,6 +1,9 @@
 package com.admin.surveytwo.user;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,20 +20,27 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.auth.Token;
 import com.google.firebase.iid.FirebaseInstanceId;
 
-public class LoginPage extends AppCompatActivity {
+import io.grpc.okhttp.internal.Util;
+
+public class LoginPage extends Activity {
 
     private EditText inputEmail, inputPassword;
     private FirebaseAuth auth;
     private ProgressBar progressBar;
     private Button btnSignup, btnLogin, btnReset;
+    String email;
+    String password;
+   // SharedPreferences sp;
+    Boolean isFirstTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
-        getSupportActionBar().setTitle("Login");
+        //getSupportActionBar().setTitle("Login");
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
@@ -50,6 +60,10 @@ public class LoginPage extends AppCompatActivity {
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
+
+
+
+
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,8 +81,8 @@ public class LoginPage extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = inputEmail.getText().toString();
-                final String password = inputPassword.getText().toString();
+                 email = inputEmail.getText().toString();
+                 password = inputPassword.getText().toString();
 
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
@@ -90,6 +104,10 @@ public class LoginPage extends AppCompatActivity {
                                 // If sign in fails, display a message to the user. If sign in succeeds
                                 // the auth state listener will be notified and logic to handle the
                                 // signed in user can be handled in the listener.
+
+                                System.out.println("User Email Id 1====  "+task);
+                                System.out.println("User Email Id 2====  "+auth);
+                                System.out.println("User Email Id 3====  "+email);
                                 progressBar.setVisibility(View.GONE);
                                 if (!task.isSuccessful()) {
                                     // there was an error
@@ -111,6 +129,14 @@ public class LoginPage extends AppCompatActivity {
                         });
             }
         });
+
+
+
+       /* sp = getSharedPreferences("login",MODE_PRIVATE);
+        if(sp.contains(email)&& sp.contains(password)){
+            Intent i = new Intent(getApplicationContext(),ListActivity.class);
+            startActivity(i);
+        }*/
 
     }
 }

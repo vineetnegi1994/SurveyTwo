@@ -34,7 +34,8 @@
     <string name="title_activity_maps">Map</string>
     <string name="noti_channel_second">Secondary Channel</string>
     <string name="noti_channel_default">Primary Channel</string>
-    <string name="secondary1_body">Notification body text.</string>
+    <string name="secondary1_body">You Are in Office Range</string>
+    <string name="secondary2_body">You Are Not in Your office Range</string>
     <string name="notification_channel_id">Default</string>
 
 

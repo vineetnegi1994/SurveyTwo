@@ -6,23 +6,30 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
+import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.admin.surveytwo.R;
+import com.admin.surveytwo.activities.Artist;
 import com.admin.surveytwo.activities.ListActivity;
 import com.admin.surveytwo.activities.NotificationHelper;
+import com.admin.surveytwo.sevices.IserviceTwo;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
@@ -39,13 +46,19 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback  {
@@ -58,7 +71,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final int NOTI_SECONDARY1 = 1200;
     private static final int NOTI_SECONDARY2 = 1201;
     private NotificationHelper noti;
+    LatLng latLngA;
+    DatabaseReference databaseArtists;
 
+    IserviceTwo myService;
      GoogleMap mMap;
      LocationManager locationManager;
     SupportMapFragment mapFrag;
@@ -68,6 +84,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     NotificationChannel mChannel;
     Notification notification;
     FusedLocationProviderClient mFusedLocationClient;
+    Date currentTime;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -76,11 +93,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
 
         noti = new NotificationHelper(this);
-
+        databaseArtists = FirebaseDatabase.getInstance().getReference("artist");
          mapFrag = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         mapFrag.getMapAsync(this);
+        mapFrag.getView().setVisibility(View.GONE);
+
+         currentTime = Calendar.getInstance().getTime();
+        System.out.println("Real Time Date = "+currentTime);
+
+
     }
 
     @Override
@@ -131,12 +154,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         @Override
         public void onLocationResult(LocationResult locationResult) {
             List<Location> locationList = locationResult.getLocations();
+
+
             if (locationList.size() > 0) {
                 //The last location in the list is the newest
                 Location location = locationList.get(locationList.size() - 1);
                 Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
               //  Log.i("MapsActivity", "Location: " + 28.5445 + " " + 77.2642);
                 mLastLocation = location;
+
                 if (mCurrLocationMarker != null) {
                     mCurrLocationMarker.remove();
                 }
@@ -153,7 +179,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
 
 
-                LatLng latLngA = new LatLng(location.getLatitude(),location.getLongitude());
+                 latLngA = new LatLng(location.getLatitude(),location.getLongitude());
                 LatLng latLngB = new LatLng(28.536957,77.271521);
 
                 Location locationA = new Location("point A");
@@ -163,20 +189,48 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 locationB.setLatitude(latLngB.latitude);
                 locationB.setLongitude(latLngB.longitude);
 
-                double distance = locationA.distanceTo(locationB);
+                System.out.println("dddddddddddddd  ======   "+latLngA);
+                System.out.println("Live Location ==== "+locationA);
+                System.out.println("Set Location ==== "+locationB);
+
+                float distance = locationA.distanceTo(locationB);
 
                 System.out.println(" My Distance == "+distance);
 
-                if(distance<=10){
+                Circle circle1 = mMap.addCircle(new CircleOptions()
+                        .center(new LatLng(28.536957,77.271521))
+                        .radius(10)
+                        .strokeColor(Color.RED)
+                );
+                Circle circle2 = mMap.addCircle(new CircleOptions()
+                        .center(new LatLng(28.536957,77.271521))
+                        .radius(50)
+                        .strokeColor(Color.RED)
+                );
 
-                    System.out.print("You are Nearby your company  "+distance);
-                  //  Toast.makeText(MapsActivity.this, "sssssss", Toast.LENGTH_SHORT).show();
-                    pushNotification();
-                    sendNotification(NOTI_SECONDARY1, getTitleSecondaryText());
 
+
+                if(distance>=circle2.getRadius()){
+
+                    sendNotification2(NOTI_SECONDARY1, getTitleSecondaryText());
+                    addArtist();
+                  //  finish();
+                  //  System.exit(1);
 
 
                 }
+                if(distance<=circle2.getRadius()){
+
+                    sendNotification(NOTI_SECONDARY1, getTitleSecondaryText());
+                    addArtist();
+                  //  finish();
+                  //  System.exit(1);
+
+
+                }
+
+
+
 
                 /*Geofence geofence = new Geofence.Builder()
                         .setRequestId(String.valueOf(1)) // Geofence ID
@@ -203,9 +257,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
 
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
                 new AlertDialog.Builder(this)
                         .setTitle("Location Permission Needed")
                         .setMessage("This app needs the Location permission, please accept to use location functionality")
@@ -223,7 +274,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
             } else {
-                // No explanation needed, we can request the permission.
+
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                         MY_PERMISSIONS_REQUEST_LOCATION );
@@ -236,12 +287,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                            String permissions[], int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_LOCATION: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
+
+                    if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    // permission was granted, yay! Do the
-                    // location-related task you need to do.
+
                     if (ContextCompat.checkSelfPermission(this,
                             Manifest.permission.ACCESS_FINE_LOCATION)
                             == PackageManager.PERMISSION_GRANTED) {
@@ -252,25 +302,53 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 } else {
 
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
+
                     Toast.makeText(this, "permission denied", Toast.LENGTH_LONG).show();
                 }
                 return;
             }
 
-            // other 'case' lines to check for other
-            // permissions this app might request
+
         }
+    }
+
+    private void addArtist(){
+
+       // String name = editText1.getText().toString().trim();
+            String name = latLngA.toString().trim();
+            String timeDate = String.valueOf(currentTime.toString().trim());
+        if(!TextUtils.isEmpty(name)){
+            String id = databaseArtists.push().getKey();
+            Artist artist = new Artist(id,name,timeDate);
+            databaseArtists.child(id).setValue(artist);
+            Toast.makeText(getApplicationContext(), "Artist Added", Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(getApplicationContext(), "Enter Name Firest", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void sendNotification(int id, String title) {
         Notification.Builder nb = null;
+        Notification.Builder mb = null;
 
         nb = noti.getNotification2(title, getString(R.string.secondary1_body));
         if (nb != null) {
             noti.notify(id, nb);
+        }
+
+
+    }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void sendNotification2(int id, String title) {
+        Notification.Builder nb = null;
+        Notification.Builder mb = null;
+
+
+        mb = noti.getNotification2(title, getString(R.string.secondary2_body));
+        if (mb != null) {
+            noti.notify(id, mb);
         }
 
     }
@@ -279,9 +357,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     private String getTitleSecondaryText() {
-       /* if (titlePrimary != null) {
-            return titleSecondary.getText().toString();
-        }*/
+
         return "";
     }
 
